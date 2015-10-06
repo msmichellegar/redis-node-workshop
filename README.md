@@ -160,6 +160,8 @@ It's important to note that every method takes a callback function as the final 
 
 You'll need to put these methods inside your handlers. Inside your `/add` endpoint, write a Redis method adding the item to a Redis list (you'll have to get this data from the frontend, take a look in the request object as it should send in the payload from the form). Inside your `/display` endpoint, write a Redis method fetching all the data from your database list.
 
+*Look at [the documentation for the npm module](https://github.com/NodeRedis/node_redis). It's unfortunately a little vague, but you can at least guess at how most methods work.*
+
 #### 9. Frontend JavaScript
 
 Finally, to display your data on the frontend, you'll need a function that appends the data that comes back from your request to the `<ul>` list.

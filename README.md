@@ -46,9 +46,11 @@ Use a generic handler to serve the index.html file. Get it to appear in your bro
 
 #### 4. Set up your endpoints
 
-As well as serving the files, you'll be needing two endpoints for this app: one for adding items (`/add`), and one for displaying the items (`/display`). Create these in your handlers function. Right now they can be blank, just so long as they exist.
+You could write your app using different endpoints for your various actions (e.g. '/add' when the submit button is pressed, and '/display' when the page is loaded).  But remember [CRUD](https://en.wikipedia.org/wiki/Create,_read,_update_and_delete)!
 
-Your handlers might look something like this:
+You can write all your requests via one endpoint, namely '/'.  You will want to think about using 'POST' and 'GET' in your requests to differentiate.
+
+If you were to use different endpoints instead of one, handlers might look something like this:
 
 ```js
 var fs = require('fs');
@@ -83,34 +85,16 @@ function handler(request, response) {
 };
 ```
 
+Try to figure out how to write your server using only the '/' endpoint.
+
 #### 5. Set up AJAX or HTTP requests on the frontend
 
-You will need to make two requests: one for when you add an item to the database (using `/add`). And one for displaying the data (using `/display`). The first should be triggered when you click the "submit" button. The second should be triggered on loading the page.
+You will need several requests: one for when you add an item to the database and one for displaying the data. The first should be triggered when you click the "submit" button. The second should be triggered on loading the page.
 
-Luckily, there's a way of hooking up forms to make requests to the server. You just need to add the following method and action to the opening form tag: `method="POST" action="/add"`.
+Luckily, there's a way of hooking up forms to make requests to the server. You just need to add the following method and action to the opening form tag: `method="POST" action="/"`.
 
-But you still need to make a request to the server to fetch the data. An AJAX request to an endpoint with jQuery looks like this:
+Action is where you specify the endpoint that the data is destined for.
 
-```js
-$.ajax('/display', {
-    success: function(data){
-        console.log(data);
-    }
-});
-```
-
-Or else an HTTP request looks like this. Take your pick.
-
-```js
-var request = new XMLHttpRequest();
-request.onreadystatechange = function() {
-    if(request.readyState === 4) {
-        console.log(request.responseText);
-    };
-};
-request.open("GET", "/display", true);
-request.send();
-```
 
 Now you've got the basic infrastructure set up, you're ready to go. Let's integrate Redis.
 
@@ -158,7 +142,7 @@ client.rpush("favourites", "kittens", function(err, reply) {
 
 It's important to note that every method takes a callback function as the final parameter. This will give you either an error or the response from your Redis client. If you're just adding data, the response won't be too useful. But if you're *fetching* data, this is where you'll find it.
 
-You'll need to put these methods inside your handlers. Inside your `/add` endpoint, write a Redis method adding the item to a Redis list (you'll have to get this data from the frontend, take a look in the request object as it should send in the payload from the form). Inside your `/display` endpoint, write a Redis method fetching all the data from your database list.
+You'll need to put these methods inside your handlers. Write a Redis method adding the item to a Redis list (you'll have to get this data from the frontend, take a look in the request object as it should send in the payload from the form). For displaying, write a Redis method fetching all the data from your database list.
 
 *Look at [the documentation for the npm module](https://github.com/NodeRedis/node_redis). It's unfortunately a little vague, but you can at least guess at how most methods work.*
 

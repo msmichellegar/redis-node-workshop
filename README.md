@@ -14,14 +14,7 @@ In this workshop, we'll be building a simple list app. You'll be able to add lis
 
 <hr>
 
-<h5>My Favourite Things</h5>
-<input type="text"></input> <input type="submit"></input>
-<ul>
-    <li>Raindrops on roses</li>
-    <li>Whiskers on kittens</li>
-    <li>Bright coloured copper</li>
-    <li>Warm woolen mittens</li>
-</ul>
+![image of site](https://cloud.githubusercontent.com/assets/10683087/10299410/af74aafc-6be1-11e5-87d9-eff33e30cc34.png)
 
 ## Building the App
 
@@ -166,3 +159,16 @@ client.rpush("favourites", "kittens", function(err, reply) {
 It's important to note that every method takes a callback function as the final parameter. This will give you either an error or the response from your Redis client. If you're just adding data, the response won't be too useful. But if you're *fetching* data, this is where you'll find it.
 
 You'll need to put these methods inside your handlers. Inside your `/add` endpoint, write a Redis method adding the item to a Redis list (you'll have to get this data from the frontend, take a look in the request object as it should send in the payload from the form). Inside your `/display` endpoint, write a Redis method fetching all the data from your database list.
+
+#### 9. Frontend JavaScript
+
+Finally, to display your data on the frontend, you'll need a function that appends the data that comes back from your request to the `<ul>` list.
+
+### You did it!
+
+<hr>
+
+For examples of Redis used in Node, take a look at these projects:
+* [Best To Do Ever](https://github.com/msmichellegar/best-todo-ever)
+* [DWYL's Tudo](https://github.com/dwyl/tudo)
+* [JustOpine](https://github.com/justopine/justopine)
